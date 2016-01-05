@@ -25,14 +25,28 @@ class ServiceProvider implements ServiceProviderInterface
                 ];
             }
 
-            $tmp = $app['ems.options'];
+            $tmp = $app['mongodbs.options'];
             foreach ($tmp as $name => &$options) {
                 $options = array_replace($app['mongodb.default_options'], $options);
+
                 if (!isset($app['mongodbs.default'])) {
                     $app['mongodbs.default'] = $name;
                 }
             }
             $app['mongodbs.options'] = $tmp;
+        });
+
+        $app['mongodbs'] = $app->share(function (Application $app) {
+            $app['mongodbs.options.initializer']();
+
+            $container = new \Pimple();
+            foreach ($app['mongodbs.options'] as $name => $options) {
+                $container[$name] = $container->share(function () use ($options) {
+                    return new Manager($options['uri'], $options['options'], $options['driverOptions']);
+                });
+            }
+
+            return $container;
         });
 
         $app['mongodb.default_options'] = [
@@ -45,10 +59,6 @@ class ServiceProvider implements ServiceProviderInterface
         $app['mongodb'] = $app->share(function (Application $app) {
             $dbs = $app['mongodbs'];
             return $dbs[$app['mongodbs.default']];
-        });
-
-        $app['mongodb.manager'] = $app->share(function () {
-            return new Manager($this->options['uri'], $this->options['options'], $this->options['driverOptions']);
         });
     }
 

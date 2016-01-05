@@ -4,6 +4,7 @@ namespace Coderockr\Mongodb\Test;
 use Silex\Application;
 use Silex\WebTestCase;
 use Coderockr\Mongodb\ServiceProvider as MongodbServiceProvider;
+use MongoDB\Driver\Manager;
 
 class ServiceProviderTest extends WebTestCase
 {
@@ -12,7 +13,6 @@ class ServiceProviderTest extends WebTestCase
      */
     public function singleConnection()
     {
-        var_dump('a');
         $app = $this->createApplication();
         $app->register(new MongodbServiceProvider(), [
             'mongodb.options' => [
@@ -22,8 +22,8 @@ class ServiceProviderTest extends WebTestCase
             ]
         ]);
 
-        $orm = $app['orm'];
-        $this->assertSame($app['ems']['default'], $orm);
+        $this->assertSame($app['mongodb'], $app['mongodbs']['default']);
+        $this->assertInstanceOf(Manager::class, $app['mongodb']);
     }
 
     /**
@@ -46,8 +46,8 @@ class ServiceProviderTest extends WebTestCase
             ]
         ];
 
-        $orm = $app['orm'];
-        $this->assertSame($app['ems']['sqlite1'], $orm);
+        $this->assertSame($app['mongodb'], $app['mongodbs']['conn1']);
+        $this->assertNotSame($app['mongodb'], $app['mongodbs']['conn2']);
     }
 
     public function createApplication()
