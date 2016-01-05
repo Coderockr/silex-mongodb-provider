@@ -1,4 +1,5 @@
 <?php
+
 namespace Coderockr\Mongodb;
 
 use Silex\Application;
@@ -7,16 +8,21 @@ use MongoDB\Driver\Manager;
 
 class ServiceProvider implements ServiceProviderInterface
 {
+    private $options = [
+        'uri' => "mongodb://localhost:27017",
+        'options' => [],
+        'driverOptions' => []
+    ];
+
+    public function __construct(array $options)
+    {
+        $this->options = array_merge($this->options, $options);
+    }
+
     public function register(Application $app)
     {
-        $app['mongodb.connection'] = [
-            // 'uri' => "mongodb://localhost:27017",
-            // 'options' => [],
-            // 'driverOptions' => []
-        ];
-
-        $app['mongodb.manager'] = $app->share(function ($app) {
-            return new Manager($app['mongodb.connection']['uri']/*, $app['mongodb.connection']['options'], $app['mongodb.connection']['driverOptions']*/);
+        $app['mongodb.manager'] = $app->share(function () {
+            return new Manager($this->options['uri'], $this->options['options'], $this->options['driverOptions']);
         });
     }
 
