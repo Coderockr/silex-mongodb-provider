@@ -16,7 +16,7 @@ class ServiceProvider implements ServiceProviderInterface
         $app['mongodb.connection'] = [
             'uri' => "mongodb://localhost:27017",
             'options' => [],
-            'driverOptions' = []
+            'driverOptions' => []
         ];
 
         $app['mongodb.manager'] = $app->share(function () use($app) {
