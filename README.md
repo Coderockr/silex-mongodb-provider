@@ -14,12 +14,13 @@
     use Coderockr\Mongodb\ServiceProvider as MongodbServiceProvider;
 
     $app = new Application();
-    $app->register(new MongodbServiceProvider([
-            'uri' => "mongodb://localhost:27017"
+    $app->register(new MongodbServiceProvider(), [
+        'mongodb.options' => [
+            'uri' => 'mongodb://localhost:27017'
         ]
-    ));
+    ]);
 
-    $manager = $app['mongodb.manager'];
+    $manager = $app['mongodb']; // or $app['mongodbs']['default'];
     $collection = new MongoDB\Collection($manager, "demo.beers");
     $result = $collection->insertOne(['name' => 'Hinterland', 'brewery' => 'BrewDog']);
 

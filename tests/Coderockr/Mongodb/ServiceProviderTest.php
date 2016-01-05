@@ -33,8 +33,7 @@ class ServiceProviderTest extends WebTestCase
     {
         $app = $this->createApplication();
         $app->register(new MongodbServiceProvider());
-        $app['orm.proxy_namespace'] = 'Proxy';
-        $app['orm.proxy_dir'] = __DIR__;
+        
         $app['mongodbs.options'] = [
             'conn1' => [
                 'uri' => 'mongodb://localhost:27017',
