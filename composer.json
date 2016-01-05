@@ -24,8 +24,8 @@
         "mongodb/mongodb": "^1.0.0@beta"
     },
     "autoload": {
-        "psr-4": {
-            "Coderockr\\Mongodb\\": "src/"
+        "psr-0": {
+            "Coderockr\\Mongodb": "src/"
         }
     }
 }
