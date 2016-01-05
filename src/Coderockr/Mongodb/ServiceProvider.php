@@ -1,6 +1,6 @@
 <?php
 
-namespace Coderockr\Mongodb;
+namespace Coderockr\Mongodb\;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
