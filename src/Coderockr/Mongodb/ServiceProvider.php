@@ -25,14 +25,15 @@ class ServiceProvider implements ServiceProviderInterface
                 ];
             }
 
-            $tmp = $app['mongodbs.options'];
-            foreach ($tmp as $name => &$options) {
-                $options = array_replace($app['mongodb.default_options'], $options);
+            $tmp = [];
+            foreach ($app['mongodbs.options'] as $name => $options) {
+                $tmp[$name] = array_replace($app['mongodb.default_options'], $options);
 
                 if (!isset($app['mongodbs.default'])) {
                     $app['mongodbs.default'] = $name;
                 }
             }
+
             $app['mongodbs.options'] = $tmp;
         });
 

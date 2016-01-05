@@ -24,6 +24,7 @@ class ServiceProviderTest extends WebTestCase
 
         $this->assertSame($app['mongodb'], $app['mongodbs']['default']);
         $this->assertInstanceOf(Manager::class, $app['mongodb']);
+        $this->assertArrayHasKey('default', $app['mongodbs.options']);
     }
 
     /**
@@ -33,7 +34,7 @@ class ServiceProviderTest extends WebTestCase
     {
         $app = $this->createApplication();
         $app->register(new MongodbServiceProvider());
-        
+
         $app['mongodbs.options'] = [
             'conn1' => [
                 'uri' => 'mongodb://localhost:27017',
