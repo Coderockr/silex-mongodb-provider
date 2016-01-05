@@ -1,0 +1,31 @@
+{
+    "name": "coderockr/silex-mongodb-provider",
+    "description": "Silex Service Provider to access Mongodb",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Elton Minetto",
+            "email": "eminetto@coderockr.com",
+            "homepage": "http://eltonminetto.net/",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "silex",
+        "mongodb",
+	    "provider"
+    ],
+    "homepage": "http://coderockr.com/",
+    "license": "BSD-3-Clause",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4",
+        "silex/silex": "*",
+        "mongodb/mongodb": "^1.0.0@beta"
+    },
+    "autoload": {
+        "psr-0": {
+            "Coderockr\\SOA": "src/"
+        }
+    }
+}
