@@ -13,19 +13,27 @@
     "keywords": [
         "silex",
         "mongodb",
-	    "provider"
+        "provider"
     ],
     "homepage": "http://coderockr.com/",
     "license": "BSD-3-Clause",
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.4",
-        "silex/silex": "*",
+        "silex/silex": "~1.3",
         "mongodb/mongodb": "^1.0.0@beta"
     },
     "autoload": {
         "psr-0": {
             "Coderockr\\Mongodb": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "Coderockr\\Mongodb\\Test": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.1"
     }
 }
