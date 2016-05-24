@@ -1,3 +1,4 @@
+sudo: false
 language: php
 
 php:
@@ -6,10 +7,21 @@ php:
   - 7.0
   - hhvm
 
+env:
+  - MONGO_VERSION=1.5.8
+  - MONGO_VERSION=stable
+  - MONGO_VERSION=stable PREFER_LOWEST="--prefer-lowest"
+
 matrix:
   allow_failures:
     - php: hhvm
 
+services: mongodb
+
 before_script:
+  - if [ "x${MONGO_VERSION}" != "x" ]; then yes '' | pecl -q install -f mongo-${MONGO_VERSION}; fi
+  - if [ "x${MONGO_VERSION}" != "x" ]; then php --ri mongo; fi
   - composer self-update
-  - composer install --prefer-dist
+  - if [ "x${MONGODB_VERSION}" != "x" ]; then pecl install -f mongodb-${MONGODB_VERSION}; fi
+  - if [ "x${ADAPTER_VERSION}" != "x" ]; then composer require "alcaeus/mongo-php-adapter=${ADAPTER_VERSION}" --ignore-platform-reqs; fi
+  - composer update --dev --no-interaction --prefer-source $PREFER_LOWEST
