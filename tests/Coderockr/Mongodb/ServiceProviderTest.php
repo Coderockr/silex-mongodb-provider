@@ -1,12 +1,11 @@
 <?php
 namespace Coderockr\Mongodb\Test;
 
-use Silex\Application;
-use Silex\WebTestCase;
+use Pimple\Container;
 use Coderockr\Mongodb\ServiceProvider as MongodbServiceProvider;
 use MongoDB\Driver\Manager;
 
-class ServiceProviderTest extends WebTestCase
+class ServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -52,9 +51,6 @@ class ServiceProviderTest extends WebTestCase
 
     public function createApplication()
     {
-        $app = new Application();
-        $app['debug'] = true;
-        $app['exception_handler']->disable();
-        return $app;
+        return new Container();
     }
 }
