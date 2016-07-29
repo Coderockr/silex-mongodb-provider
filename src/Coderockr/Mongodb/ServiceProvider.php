@@ -21,20 +21,19 @@ class ServiceProvider implements ServiceProviderInterface
 
             if (!isset($app['mongodbs.options'])) {
                 $app['mongodbs.options'] = [
-                    'default' => isset($app['mongodb.options']) ? $app['mongodb.options'] : []
+                    'default' => isset($app['mongodb.options'])
+                        ? $app['mongodb.options']
+                        : []
                 ];
             }
 
-            $tmp = [];
-            foreach ($app['mongodbs.options'] as $name => $options) {
-                $tmp[$name] = array_replace($app['mongodb.default_options'], $options);
+            $app['mongodbs.options'] = array_map(function ($options) use ($app) {
+                return array_replace($app['mongodb.default_options'], $options);
+            }, $app['mongodbs.options']);
 
-                if (!isset($app['mongodbs.default'])) {
-                    $app['mongodbs.default'] = $name;
-                }
+            if (!isset($app['mongodbs.default'])) {
+                $app['mongodbs.default'] = array_keys(array_slice($app['mongodbs.options'], 0, 1))[0];
             }
-
-            $app['mongodbs.options'] = $tmp;
         });
 
         $app['mongodbs'] = $app->share(function (Application $app) {
@@ -64,5 +63,6 @@ class ServiceProvider implements ServiceProviderInterface
     }
 
     public function boot(Application $app)
-    {}
+    {
+    }
 }
