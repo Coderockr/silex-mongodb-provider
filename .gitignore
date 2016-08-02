@@ -1,3 +1,4 @@
 phpunit.xml.dist
 .idea/
 vendor/
+composer.lock
